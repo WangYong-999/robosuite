@@ -208,7 +208,7 @@ if __name__ == "__main__":
     spin_count = 0
     while True:
         action = np.zeros(env.action_dim)
-        obs, reward, done, _ = env.step(action)
+        obs, reward, done, _ = env.step(action, set_qpos=None)
         env.render()
         spin_count += 1
         if spin_count % 500 == 0:

@@ -94,6 +94,7 @@ if __name__ == "__main__":
     # Load the desired controller
     options["controller_configs"] = load_controller_config(default_controller=controller_name)
 
+    print(options)
     env = suite.make(
         **options,
         has_renderer=False if renderer != "mujoco" else True,  # no on-screen renderer

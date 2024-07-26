@@ -11,9 +11,8 @@ from robosuite.utils.traj_utils import LinearInterpolator
 
 from . import arm as arm_controllers
 from . import base as base_controllers
-from . import generic
+from robosuite.controllers.generic import JointPositionController, JointVelocityController, JointTorqueController
 from . import gripper as gripper_controllers
-
 # from . import legs as legs_controllers
 # Global var for linking pybullet server to multiple ik controller instances if necessary
 pybullet_server = None
@@ -161,13 +160,13 @@ def arm_controller_factory(name, params):
         )
 
     if name == "JOINT_VELOCITY":
-        return genereic.JointVelocityController(interpolator=interpolator, **params)
+        return JointVelocityController(interpolator=interpolator, **params)
 
     if name == "JOINT_POSITION":
-        return genereic.JointPositionController(interpolator=interpolator, **params)
+        return JointPositionController(interpolator=interpolator, **params)
 
     if name == "JOINT_TORQUE":
-        return genereic.JointTorqueController(interpolator=interpolator, **params)
+        return JointTorqueController(interpolator=interpolator, **params)
 
     raise ValueError("Unknown controller name: {}".format(name))
 

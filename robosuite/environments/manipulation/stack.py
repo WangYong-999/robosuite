@@ -265,7 +265,7 @@ class Stack(SingleArmEnv):
         # reaching is successful when the gripper site is close to the center of the cube
         cubeA_pos = self.sim.data.body_xpos[self.cubeA_body_id]
         cubeB_pos = self.sim.data.body_xpos[self.cubeB_body_id]
-        gripper_site_pos = self.sim.data.site_xpos[self.robots[0].eef_site_id]
+        gripper_site_pos = self.sim.data.site_xpos[self.robots[0].eef_site_id['right']]
         dist = np.linalg.norm(gripper_site_pos - cubeA_pos)
         r_reach = (1 - np.tanh(10.0 * dist)) * 0.25
 

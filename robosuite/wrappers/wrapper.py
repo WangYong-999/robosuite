@@ -35,7 +35,7 @@ class Wrapper:
             else:
                 break
 
-    def step(self, action):
+    def step(self, action, set_qpos):
         """
         By default, run the normal environment step() function
 
@@ -50,7 +50,7 @@ class Wrapper:
                 - (bool) whether the current episode is completed or not
                 - (dict) misc information
         """
-        return self.env.step(action)
+        return self.env.step(action, set_qpos)
 
     def reset(self):
         """

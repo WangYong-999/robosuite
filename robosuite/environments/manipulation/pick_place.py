@@ -739,7 +739,7 @@ class PickPlace(SingleArmEnv):
             bool: True if all objects are placed correctly
         """
         # remember objects that are in the correct bins
-        gripper_site_pos = self.sim.data.site_xpos[self.robots[0].eef_site_id]
+        gripper_site_pos = self.sim.data.site_xpos[self.robots[0].eef_site_id['right']]
         for i, obj in enumerate(self.objects):
             obj_str = obj.name
             obj_pos = self.sim.data.body_xpos[self.obj_body_id[obj_str]]

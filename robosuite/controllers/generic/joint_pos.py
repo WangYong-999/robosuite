@@ -239,7 +239,7 @@ class JointPositionController(Controller):
                 # Nonlinear case not currently supported
                 pass
         else:
-            desired_qpos = np.array(self.goal_qpos)
+            desired_qpos = np.array(self.goal_qpos)[:self.control_dim]
 
         # torques = pos_err * kp + vel_err * kd
         position_error = desired_qpos - self.joint_pos

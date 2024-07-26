@@ -570,7 +570,7 @@ class RobotEnv(MujocoEnv):
             # Lastly, replace camera names with the updated ones
             self.camera_names = temp_names
 
-    def _pre_action(self, action, policy_step=False):
+    def _pre_action(self, action, set_qpos, policy_step=False):
         """
         Overrides the superclass method to control the robot(s) within this enviornment using their respective
         controllers using the passed actions and gripper control.
@@ -595,7 +595,7 @@ class RobotEnv(MujocoEnv):
         cutoff = 0
         for idx, robot in enumerate(self.robots):
             robot_action = action[cutoff : cutoff + robot.action_dim]
-            robot.control(robot_action, policy_step=policy_step)
+            robot.control(robot_action, set_qpos, policy_step=policy_step)
             cutoff += robot.action_dim
 
     def _load_robots(self):

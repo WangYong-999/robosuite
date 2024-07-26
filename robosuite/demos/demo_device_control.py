@@ -106,7 +106,7 @@ from robosuite.wrappers import VisualizationWrapper
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--environment", type=str, default="Lift")
+    parser.add_argument("--environment", type=str, default="PickPlace")
     parser.add_argument("--robots", nargs="+", type=str, default="Panda", help="Which robot(s) to use in the env")
     parser.add_argument(
         "--config", type=str, default="single-arm-opposed", help="Specified environment configuration if necessary"
@@ -237,5 +237,6 @@ if __name__ == "__main__":
                 action = action[: env.action_dim]
 
             # Step through the simulation and render
-            obs, reward, done, info = env.step(action)
+            # print("Action: ", action)
+            obs, reward, done, info = env.step(action, set_qpos=None)
             env.render()

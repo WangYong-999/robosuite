@@ -419,7 +419,7 @@ class MujocoEnv(metaclass=EnvMeta):
 
         return observations
 
-    def step(self, action):
+    def step(self, action, set_qpos):
         """
         Takes a step in simulation with control command @action.
         Args:
@@ -451,7 +451,7 @@ class MujocoEnv(metaclass=EnvMeta):
                 self.sim.step1()
             else:
                 self.sim.forward()
-            self._pre_action(action, policy_step)
+            self._pre_action(action, set_qpos, policy_step)
             if self.lite_physics:
                 self.sim.step2()
             else:
@@ -475,7 +475,7 @@ class MujocoEnv(metaclass=EnvMeta):
         observations = self.viewer._get_observations() if self.viewer_get_obs else self._get_observations()
         return observations, reward, done, info
 
-    def _pre_action(self, action, policy_step=False):
+    def _pre_action(self, action, set_qpos, policy_step=False):
         """
         Do any preprocessing before taking an action.
         Args:

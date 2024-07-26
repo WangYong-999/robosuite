@@ -126,7 +126,7 @@ class FixedBaseRobot(Robot):
             self.eef_site_id[arm] = self.sim.model.site_name2id(self.gripper[arm].important_sites["grip_site"])
             self.eef_cylinder_id[arm] = self.sim.model.site_name2id(self.gripper[arm].important_sites["grip_cylinder"])
 
-    def control(self, action, policy_step=False):
+    def control(self, action, set_qpos, policy_step=False):
         """
         Actuate the robot with the
         passed joint velocities and gripper control.
@@ -151,7 +151,7 @@ class FixedBaseRobot(Robot):
 
         self.composite_controller.update_state()
         if policy_step:
-            self.composite_controller.set_goal(action)
+            self.composite_controller.set_goal(action, set_qpos)
 
         applied_action_dict = self.composite_controller.run_controller(self._enabled_parts)
         for part_name, applied_action in applied_action_dict.items():
@@ -209,29 +209,29 @@ class FixedBaseRobot(Robot):
         # # Apply joint torque control
         # self.sim.data.ctrl[self._ref_arm_joint_actuator_indexes] = self.torques
 
-        if policy_step:
-            # Update proprioceptive values
-            self.recent_qpos.push(self._joint_positions)
-            self.recent_actions.push(action)
-            self.recent_torques.push(self.torques)
-
-            for arm in self.arms:
-                controller = self.controller[arm]
-                # Update arm-specific proprioceptive values
-                self.recent_ee_forcetorques[arm].push(np.concatenate((self.ee_force[arm], self.ee_torque[arm])))
-                self.recent_ee_pose[arm].push(np.concatenate((controller.ee_pos, T.mat2quat(controller.ee_ori_mat))))
-                self.recent_ee_vel[arm].push(np.concatenate((controller.ee_pos_vel, controller.ee_ori_vel)))
-
-                # Estimation of eef acceleration (averaged derivative of recent velocities)
-                self.recent_ee_vel_buffer[arm].push(np.concatenate((controller.ee_pos_vel, controller.ee_ori_vel)))
-                diffs = np.vstack(
-                    [
-                        self.recent_ee_acc[arm].current,
-                        self.control_freq * np.diff(self.recent_ee_vel_buffer[arm].buf, axis=0),
-                    ]
-                )
-                ee_acc = np.array([np.convolve(col, np.ones(10) / 10.0, mode="valid")[0] for col in diffs.transpose()])
-                self.recent_ee_acc[arm].push(ee_acc)
+        # if policy_step:
+        #     # Update proprioceptive values
+        #     self.recent_qpos.push(self._joint_positions)
+        #     self.recent_actions.push(action)
+        #     self.recent_torques.push(self.torques)
+        #
+        #     for arm in self.arms:
+        #         controller = self.controller[arm]
+        #         # Update arm-specific proprioceptive values
+        #         self.recent_ee_forcetorques[arm].push(np.concatenate((self.ee_force[arm], self.ee_torque[arm])))
+        #         self.recent_ee_pose[arm].push(np.concatenate((controller.ee_pos, T.mat2quat(controller.ee_ori_mat))))
+        #         self.recent_ee_vel[arm].push(np.concatenate((controller.ee_pos_vel, controller.ee_ori_vel)))
+        #
+        #         # Estimation of eef acceleration (averaged derivative of recent velocities)
+        #         self.recent_ee_vel_buffer[arm].push(np.concatenate((controller.ee_pos_vel, controller.ee_ori_vel)))
+        #         diffs = np.vstack(
+        #             [
+        #                 self.recent_ee_acc[arm].current,
+        #                 self.control_freq * np.diff(self.recent_ee_vel_buffer[arm].buf, axis=0),
+        #             ]
+        #         )
+        #         ee_acc = np.array([np.convolve(col, np.ones(10) / 10.0, mode="valid")[0] for col in diffs.transpose()])
+        #         self.recent_ee_acc[arm].push(ee_acc)
 
     def setup_observables(self):
         """

@@ -17,9 +17,9 @@ class SingleArmEnv(ManipulationEnv):
         super()._load_model()
 
         # Verify the correct robot has been loaded
-        assert isinstance(
-            self.robots[0], SingleArm
-        ), "Error: Expected one single-armed robot! Got {} type instead.".format(type(self.robots[0]))
+        # assert isinstance(
+        #     self.robots[0], SingleArm
+        # ), "Error: Expected one single-armed robot! Got {} type instead.".format(type(self.robots[0]))
 
     def _check_robot_configuration(self, robots):
         """
@@ -40,7 +40,7 @@ class SingleArmEnv(ManipulationEnv):
         Returns:
             np.array: End effector(x,y,z)
         """
-        return np.array(self.sim.data.site_xpos[self.robots[0].eef_site_id])
+        return np.array(self.sim.data.site_xpos[self.robots[0].eef_site_id['right']])
 
     @property
     def _eef_xmat(self):

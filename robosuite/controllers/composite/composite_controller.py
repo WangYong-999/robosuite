@@ -51,7 +51,7 @@ class CompositeController:
             self._action_split_indexes[part_name] = (previous_idx, last_idx)
             previous_idx = last_idx
 
-    def set_goal(self, all_action):
+    def set_goal(self, all_action, set_qpos):
         if not self.lite_physics:
             self.sim.forward()
 
@@ -60,7 +60,7 @@ class CompositeController:
             action = all_action[start_idx:end_idx]
             if part_name in self.grippers.keys():
                 action = self.grippers[part_name].format_action(action)
-            controller.set_goal(action)
+            controller.set_goal(action, set_qpos)
 
     def reset(self):
         for part_name, controller in self.controllers.items():

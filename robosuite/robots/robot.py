@@ -314,7 +314,7 @@ class Robot(object):
 
         return observables
 
-    def control(self, action, policy_step=False):
+    def control(self, action, set_qpos, policy_step=False):
         """
         Actuate the robot with the
         passed joint velocities and gripper control.

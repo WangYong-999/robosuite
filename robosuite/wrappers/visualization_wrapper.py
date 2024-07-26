@@ -142,7 +142,7 @@ class VisualizationWrapper(Wrapper):
         self.env.visualize(vis_settings=self._vis_settings)
         return ret
 
-    def step(self, action):
+    def step(self, action, set_qpos):
         """
         Extends vanilla step() function call to accommodate visualization
 
@@ -157,7 +157,7 @@ class VisualizationWrapper(Wrapper):
                 - (bool) whether the current episode is completed or not
                 - (dict) misc information
         """
-        ret = super().step(action)
+        ret = super().step(action, set_qpos)
 
         # Update any visualization
         self.env.visualize(vis_settings=self._vis_settings)
