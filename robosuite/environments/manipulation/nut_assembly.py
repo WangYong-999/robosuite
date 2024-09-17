@@ -411,7 +411,7 @@ class NutAssembly(ManipulationEnv):
                         name=f"{nut_name}Sampler",
                         x_range=[-0.115, -0.11],
                         y_range=default_y_range,
-                        rotation=None,
+                        rotation=[2.35649445, 2.35649445],
                         rotation_axis="z",
                         ensure_object_boundary_in_range=False,
                         ensure_valid_placement=True,

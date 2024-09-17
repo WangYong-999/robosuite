@@ -361,7 +361,7 @@ class Stack(SingleArmEnv):
                 mujoco_objects=cubes,
                 x_range=[-0.08, 0.08],
                 y_range=[-0.08, 0.08],
-                rotation=None,
+                rotation=[3.14,3.14],
                 ensure_object_boundary_in_range=False,
                 ensure_valid_placement=True,
                 reference_pos=self.table_offset,
